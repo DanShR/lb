@@ -1,8 +1,6 @@
 package Bot;
 
 
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -22,7 +20,7 @@ public class Bot extends TelegramLongPollingBot {
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(chatId);
         try {
-            execute(sendMessage.setText(s));
+            executsendMessage.setText(s));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
