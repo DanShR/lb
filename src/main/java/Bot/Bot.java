@@ -20,7 +20,7 @@ public class Bot extends TelegramLongPollingBot {
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(chatId);
         try {
-            executsendMessage.setText(s));
+            execute(sendMessage.setText(s));
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
