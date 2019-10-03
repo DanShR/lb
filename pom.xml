@@ -43,7 +43,7 @@
             </plugin>
         </plugins>
     </build>
-
+         <!--test-->
     <dependencies>
         <dependency>
             <groupId>log4j</groupId>
