@@ -21,7 +21,7 @@ public class HttpClientUtil {
         try {
             response = client.execute(request);
         } catch (IOException e) {
-            log.error("fail execute request. URL: " + url);
+            log.error("fail execute request.  URL: " + url);
             return "";
         }
         int statusCode = response.getStatusLine().getStatusCode();
