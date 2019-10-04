@@ -28,6 +28,10 @@ public class Bet {
     @Column(name = "add_time")
     private Date addTime;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created")
+    private Date created;
+
     @Column(name = "ratio")
     private double ratio;
 
@@ -111,5 +115,13 @@ public class Bet {
 
     public void setEventOdd(EventOdd eventOdd) {
         this.eventOdd = eventOdd;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }

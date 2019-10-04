@@ -212,7 +212,7 @@ public class Bets implements Task {
                 Game game = eventOdd.getGame();
 
                 betService.createBet(game, eventOdd.getBookmaker(), eventOdd, event, odd, eventOdd.getAddTime(), ratio);
-                if (odd <= 2.5) {
+                if (odd <= 4) {
                     bot.sendMsg("430539607",
                             game.getLeague().getName()
                                     + "\n" + game.getDate()

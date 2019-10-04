@@ -1,6 +1,5 @@
 package Task;
 
-import Bot.Bot;
 import Interface.Task;
 import Json.JsonReader;
 import Service.BookmakerService;
@@ -83,7 +82,10 @@ public class EventOdds implements Task {
             HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
             for (Iterator<String> it = jsonReader.results.fieldNames(); it.hasNext(); ) {
                 String bookmakerName = it.next();
+
                 Bookmaker bookmaker = bookmakerService.getBookmaker(bookmakerName);
+                if ("betregal".equals(bookmakerName.toLowerCase()))
+                    continue;
                 JsonNode res = jsonReader.results.get(bookmakerName);
 
                 if (res.get(JSON_NODE_NAME_MATCHING_DIR).asInt() != 1)
@@ -142,9 +144,9 @@ public class EventOdds implements Task {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         //calendar.add(Calendar.HOUR, taskParam.getExecutionParam());
-        calendar.add(Calendar.HOUR,18);
+        calendar.add(Calendar.HOUR,11);
         Date start = calendar.getTime();
-        calendar.add(Calendar.HOUR,30);
+        calendar.add(Calendar.HOUR,17);
         Date end = calendar.getTime();
 
         HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();

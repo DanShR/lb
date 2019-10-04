@@ -26,6 +26,7 @@ public class BetRepo {
             bet.setOdd(odd);
             bet.setAddTime(addTime);
             bet.setRatio(ratio);
+            bet.setCreated(new Date());
             session.save(bet);
 
     }
