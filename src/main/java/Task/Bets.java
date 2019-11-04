@@ -212,13 +212,16 @@ public class Bets implements Task {
                 Game game = eventOdd.getGame();
 
                 betService.createBet(game, eventOdd.getBookmaker(), eventOdd, event, odd, eventOdd.getAddTime(), ratio);
-                if (odd <= 4) {
-                    bot.sendMsg("430539607",
-                            game.getLeague().getName()
-                                    + "\n" + game.getDate()
+                if (event ==1 && odd >= 2 && odd <= 2.5 && ratio >= 1.005) {
+                    String message =
+                    game.getLeague().getName()
+                            + "\n" + game.getDate()
                             + "\n" + game.getTeamHome().getName() + " - " + game.getTeamAway().getName()
                             + "\nevent " + event + " - " + odd + " ratio - " + ratio
-                            + "\n" + eventOdd.getBookmaker().getName());
+                            + "\n" + eventOdd.getBookmaker().getName();
+                    bot.sendMsg("430539607", message);
+                    bot.sendMsg("556024974", message);
+
                 }
             }
         }

@@ -144,9 +144,9 @@ public class EventOdds implements Task {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         //calendar.add(Calendar.HOUR, taskParam.getExecutionParam());
-        calendar.add(Calendar.HOUR,11);
+        calendar.add(Calendar.HOUR,8);
         Date start = calendar.getTime();
-        calendar.add(Calendar.HOUR,17);
+        calendar.add(Calendar.HOUR,14);
         Date end = calendar.getTime();
 
         HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
