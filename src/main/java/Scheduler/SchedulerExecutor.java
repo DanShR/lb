@@ -17,7 +17,6 @@ public class SchedulerExecutor {
     private static Task endedGames;
     private static Task upcomingGames;
     private static Task eventOdds;
-    private static Task bets;
     private static Task betsResult;
 
     @Autowired
@@ -25,13 +24,11 @@ public class SchedulerExecutor {
                              @Qualifier("endedGames") EndedGames endedGames,
                              @Qualifier("upcomingGames") UpcomingGames upcomingGames,
                              @Qualifier("eventOdds") EventOdds eventOdds,
-                             @Qualifier("bets") Bets bets,
                              @Qualifier("betsResult") BetsResult betsResult) {
         this.taskParamInitializer = taskParamInitializer;
         this.endedGames = endedGames;
         this.upcomingGames = upcomingGames;
         this.eventOdds = eventOdds;
-        this.bets = bets;
         this.betsResult = betsResult;
     }
 
@@ -41,7 +38,6 @@ public class SchedulerExecutor {
         startTask(exec, endedGames);
         startTask(exec, upcomingGames);
         startTask(exec, eventOdds);
-        startTask(exec, bets);
         startTask(exec, betsResult);
 
         ReentrantLock locker = new ReentrantLock();

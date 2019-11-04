@@ -1,75 +1,33 @@
 package Task;
 
 import Bot.Bot;
-import Interface.Task;
 import Service.BetService;
-import Service.GameService;
-import Task.Param.TaskParam;
-import Task.Param.TaskParamInitializer;
-import Util.HibernateUtil;
 import domain.Bookmaker;
 import domain.EventOdd;
 import domain.Game;
-import org.apache.log4j.Logger;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-@DependsOn({"taskParamInitializer"})
-public class Bets implements Task {
+public class Bets {
 
     private final double CORRECTION_FACTOR_HOME = 1.034;
     private final double CORRECTION_FACTOR_DRAW = 1.057;
     private final double CORRECTION_FACTOR_AWAY = 1.037;
-    private final int MINUTES_ADD_ODD = 240;
 
-    private static final Logger log = Logger.getLogger(Bets.class);
-
-    private TaskParam taskParam;
-    private TaskParamInitializer taskParamInitializer;
-    private GameService gameService;
     private BetService betService;
     private static Bot bot = new Bot();
 
     @Autowired
-    public Bets(TaskParamInitializer taskParamInitializer, GameService gameService, BetService betService) {
-        this.taskParamInitializer = taskParamInitializer;
-        this.gameService = gameService;
+    public Bets(BetService betService) {
         this.betService = betService;
     }
 
-    @PostConstruct
-    public void postConstructInit(){
-        this.taskParam = taskParamInitializer.getBets();
-    }
 
-    @Override
-    public void runTask() {
-        calculateBets();
-    }
-
-    @Override
-    public TaskParam getTaskParam() {
-        return taskParam;
-    }
-
-    public void calculateBets() {
-       /* List<Game> games = gameList();
-        for (Game game : games) {
-            HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
-            calculateGameBets(game);
-            HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
-        }*/
-
-    }
-
-    public void calculateGameBets(Game game, List<EventOdd> eventOddList) {
+    public void calculateGameBets(List<EventOdd> eventOddList) {
         Date max = eventOddList.stream().map(EventOdd::getAddTime).max(Date::compareTo).get();
         eventOddList.sort(Comparator.comparing(EventOdd::getAddTime).reversed());
         List<EventOdd> finalOdds = new ArrayList<>();
@@ -92,25 +50,6 @@ public class Bets implements Task {
         saveBets(bets.get("away"), "away", probability);
     }
 
-    private List<EventOdd> finalOddsList(Game game) {
-
-        List<EventOdd> lastOdds = game.getEventOdds().stream().filter((ev) ->
-                ((game.getDate().getTime() - ev.getAddTime().getTime()) / (1000 * 60)) <= MINUTES_ADD_ODD
-                        && (game.getDate().getTime() > ev.getAddTime().getTime())
-                        && ev.getHomeOdd() > 1 && ev.getDarwOdd() > 1 && ev.getAwayOdd() > 1
-        ).collect(Collectors.toList());
-
-        lastOdds.sort(Comparator.comparing(EventOdd::getAddTime).reversed());
-        List<EventOdd>  finalOdds = new ArrayList<EventOdd>();
-        for (EventOdd eventOdd : lastOdds) {
-            Bookmaker bookmaker = eventOdd.getBookmaker();
-            EventOdd existOdd = finalOdds.stream().filter((od) -> od.getBookmaker() == bookmaker).findAny().orElse(null);
-            if (existOdd == null) {
-                finalOdds.add(eventOdd);
-            }
-        }
-        return finalOdds;
-    }
 
     private HashMap<String, Double> eventProbability(List<EventOdd> finalOdds) {
 
@@ -228,17 +167,4 @@ public class Bets implements Task {
 
     }
 
-    private List<Game> gameList() {
-        Date date1 = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        //calendar.add(Calendar.HOUR, taskParam.getExecutionParam());
-        calendar.add(Calendar.HOUR, taskParam.getExecutionParam());
-        HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
-        List<Game> games = gameService.findGamesByStatusAndByDatePeriod(0, date1, calendar.getTime());
-        games.forEach(g-> Hibernate.initialize(g.getEventOdds()));
-        HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
-        log.info("generated game list. Count - " + games.size());
-        return games;
-    }
 }

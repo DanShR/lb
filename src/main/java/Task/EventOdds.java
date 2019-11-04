@@ -124,7 +124,7 @@ public class EventOdds implements Task {
             HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
             List<EventOdd> eventOddList = eventOddService.gameEventOdds(game);
             if (eventOddList.size() > 0)
-                bets.calculateGameBets(game, eventOddList);
+                bets.calculateGameBets(eventOddList);
             HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
 
         }
