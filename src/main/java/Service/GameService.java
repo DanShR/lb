@@ -68,4 +68,7 @@ public class GameService {
         return res;
     }
 
+    public void setGameScores(Game game, int status, int scoresHome, int scoresAway) {
+        gameRepo.setGameScores(game, status, scoresHome, scoresAway);
+    }
 }

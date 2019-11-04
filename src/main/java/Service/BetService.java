@@ -45,4 +45,8 @@ public class BetService {
         return betRepo.findBetByEvenOdd(eventOdd);
     }
 
+    public List<Game> findGamesFromBetsWithNotendedStatus() {
+        return betRepo.findGamesFromBetsWithNotendedStatus();
+    }
+
 }

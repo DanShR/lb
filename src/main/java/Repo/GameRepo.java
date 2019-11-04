@@ -93,4 +93,12 @@ public class GameRepo {
         List<Game> gameList= (List<Game>) query.list();
         return  gameList;
     }
+
+    synchronized public void setGameScores(Game game, int status, int scoresHome, int scoresAway) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        game.setStatus(status);
+        game.setScoresHome(scoresHome);
+        game.setScoresAway(scoresAway);
+        session.update(game);
+    }
 }

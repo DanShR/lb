@@ -5,6 +5,7 @@ import domain.Bet;
 import domain.Bookmaker;
 import domain.EventOdd;
 import domain.Game;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -57,7 +58,7 @@ public class BetRepo {
         session.save(bet);
     }
 
-    public Bet findBetByEvenOdd(EventOdd eventOdd) {
+    synchronized public Bet findBetByEvenOdd(EventOdd eventOdd) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Bet bet= null;
         String sql = "from Bet where eventOdd=:eventOdd";
@@ -65,5 +66,13 @@ public class BetRepo {
         query.setParameter("eventOdd", eventOdd);
         bet = (Bet) query.uniqueResult();
         return  bet;
+    }
+
+    synchronized public List<Game> findGamesFromBetsWithNotendedStatus() {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        String sql = "Select b.game from Bet b where b.game.status=0 group by b.game";
+        Query query = session.createQuery(sql);
+        List<Game> gameList =  (List<Game>) query.list();
+        return  gameList;
     }
 }

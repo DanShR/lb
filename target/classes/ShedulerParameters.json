@@ -8,7 +8,7 @@
       "initialDelay": 0,
       "delay": 12,
       "timeUnit": "HOURS",
-      "executionParam" : 5,
+      "executionParam" : 2,
       "active" : 1
     },
     "endedGames": {
@@ -20,22 +20,22 @@
     },
     "eventOdds": {
       "initialDelay": 0,
-      "delay": 10,
+      "delay": 1,
       "timeUnit": "MINUTES",
       "executionParam" : 4,
       "active" : 1
     },
     "bets": {
       "initialDelay": 0,
-      "delay": 10,
+      "delay": 5,
       "timeUnit": "MINUTES",
-      "executionParam" : 90,
-      "active" : 1
+      "executionParam" : 10,
+      "active" : 0
     },
     "betsResult": {
       "initialDelay": 0,
-      "delay": 1,
-      "timeUnit": "HOURS",
+      "delay": 10,
+      "timeUnit": "MINUTES",
       "executionParam" : 0,
       "active" : 1
     }

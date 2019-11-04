@@ -37,6 +37,9 @@ public class Game {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<EventOdd> eventOdds;
 
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Bet> bets;
+
 
 
     public int getId() {
@@ -109,5 +112,13 @@ public class Game {
 
     public void setEventOdds(List<EventOdd> eventOdds) {
         this.eventOdds = eventOdds;
+    }
+
+    public List<Bet> getBets() {
+        return bets;
+    }
+
+    public void setBets(List<Bet> bets) {
+        this.bets = bets;
     }
 }
