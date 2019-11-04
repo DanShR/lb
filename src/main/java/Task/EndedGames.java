@@ -64,7 +64,6 @@ public class EndedGames implements Task {
     }
 
     private void loadDataFromUrl(Game game, String url) {
-        int loaded;
         JsonReader jsonReader = new JsonReader(url);
         if (jsonReader.read()) {
             HibernateUtil.getSessionFactory().getCurrentSession().beginTransaction();
@@ -75,6 +74,7 @@ public class EndedGames implements Task {
                     int scoresHome = scoresNode.get("2").get(JSON_NODE_NAME_HOME).asInt();
                     int scoresAway = scoresNode.get("2").get(JSON_NODE_NAME_AWAY).asInt();
                     gameService.setGameScores(game, status, scoresHome, scoresAway);
+                    log.info("set result " + game.getId());
                 }
             }
             HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().commit();
